@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace RoguelikeGame.Views
 {
-    /// <summary>
+    /// <summary> 
     /// Логика взаимодействия для MainMenu.xaml
     /// </summary>
     public partial class MainMenu : Window
