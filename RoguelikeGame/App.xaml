@@ -1,0 +1,9 @@
+﻿<Application x:Class="RoguelikeGame.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:RoguelikeGame"
+             StartupUri="Views/MainMenu.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
