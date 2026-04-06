@@ -10,9 +10,13 @@ namespace RoguelikeGame.Models
     {
         public int MaxHP = 100;
         public int HP = 100;
+        public int BaseAttack = 30;  // ← базовая сила героя
 
         public Weapon Weapon;
         public Armor Armor;
+
+        // Общая атака = сила героя + сила оружия
+        public int TotalAttack => BaseAttack + (Weapon?.Attack ?? 0);
 
         public Player()
         {

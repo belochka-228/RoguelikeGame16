@@ -24,20 +24,20 @@ namespace RoguelikeGame.Systems
                 int weaponRoll = RandomService.Next(0, 3);
 
                 if (weaponRoll == 0)
-                    return new Weapon("Sword", 6, "/Assets/Weapons/sword.png");
+                    return new Weapon("Sword", 15 , "/Assets/Weapons/sword.png");
 
                 if (weaponRoll == 1)
-                    return new Weapon("Axe", 8, "/Assets/Weapons/axe.png");
+                    return new Weapon("Axe", 10, "/Assets/Weapons/axe.png");
 
-                return new Weapon("Spear", 7, "/Assets/Weapons/spear.png");
+                return new Weapon("Spear", 5, "/Assets/Weapons/spear.png");
             }
 
             int armorRoll = RandomService.Next(0, 2);
 
             if (armorRoll == 0)
-                return new Armor("Light Armor", 4, "/Assets/Armors/lightArmor.png");
+                return new Armor("Light Armor", 20, "/Assets/Armors/lightArmor.png");
 
-            return new Armor("Heavy Armor", 7, "/Assets/Armors/heavyArmor.png");
+            return new Armor("Heavy Armor", 8, "/Assets/Armors/heavyArmor.png");
         }
     }
 }
