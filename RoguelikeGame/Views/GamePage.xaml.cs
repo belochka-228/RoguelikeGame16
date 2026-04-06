@@ -46,6 +46,10 @@ namespace RoguelikeGame.Views
             WeaponImage.Source = new BitmapImage(new Uri(player.Weapon.Image, UriKind.Relative));
             ArmorImage.Source = new BitmapImage(new Uri(player.Armor.Image, UriKind.Relative));
 
+            // Отображаем характеристики
+            WeaponStats.Text = $"{player.Weapon.Name}  |  Урон: +{player.Weapon.Attack}";
+            ArmorStats.Text = $"{player.Armor.Name}  |  Защита: +{player.Armor.Defense}";
+
             FloorText.Text = $"Этаж: {floor}";
         }
 
@@ -199,8 +203,7 @@ namespace RoguelikeGame.Views
         {
             foreach (var enemy in enemies)
             {
-                int damage = enemy.Attack - player.Armor.Defense;
-                if (damage < 0) damage = 0;
+                int damage = combat.EnemyAttack(player, enemy);
 
                 if (defending)
                 {
@@ -240,9 +243,7 @@ namespace RoguelikeGame.Views
 
         private async void OpenChest(object sender, EventArgs e)
         {
-            // Убираем сундук
             EnemyPanel.Items.Clear();
-
             Item item = lootSystem.GenerateLoot();
 
             Image img = new Image();
@@ -327,7 +328,6 @@ namespace RoguelikeGame.Views
 
             floor++;
             UpdateUI();
-
             await Task.Delay(800);
             NextTurn();
         }

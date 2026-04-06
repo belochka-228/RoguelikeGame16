@@ -11,11 +11,8 @@ namespace RoguelikeGame.Systems
     {
         public int PlayerAttack(Player player, Enemy enemy)
         {
-            int damage = player.TotalAttack - enemy.Defense;   // ← изменено
-
-            if (damage < 1)
-                damage = 1;
-
+            int damage = player.TotalAttack - enemy.Defense;
+            if (damage < 1) damage = 1;
             enemy.HP -= damage;
             return damage;
         }
@@ -23,13 +20,8 @@ namespace RoguelikeGame.Systems
         public int EnemyAttack(Player player, Enemy enemy)
         {
             int defense = enemy.IgnoreArmor ? 0 : player.Armor.Defense;
-
             int damage = enemy.Attack - defense;
-
-            if (damage < 1)
-                damage = 1;
-
-            player.HP -= damage;
+            if (damage < 1) damage = 1;
             return damage;
         }
     }

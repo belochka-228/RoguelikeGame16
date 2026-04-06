@@ -13,51 +13,52 @@ namespace RoguelikeGame.Systems
         {
             int type = RandomService.Next(0, 4);
 
-            if (type == 0)
+            if (type == 0) // ВВГ
             {
                 return new Enemy
                 {
                     Name = "ВВГ",
-                    HP = (int)(30 * 2.0),
-                    Attack = (int)(12 * 1.5),
-                    Defense = (int)(3 * 1.2),
+                    HP = 60,
+                    Attack = 18,
+                    Defense = 5,
                     CritChance = 0.30,
                     Image = "/Assets/Bosses/vvg.png"
                 };
             }
 
-            if (type == 1)
+            if (type == 1) // Ковальский (игнорирует броню)
             {
                 return new Enemy
                 {
                     Name = "Ковальский",
-                    HP = (int)(40 * 2.5),
-                    Attack = (int)(10 * 1.3),
-                    Defense = (int)(5 * 1.4),
+                    HP = 100,
+                    Attack = 13,
+                    Defense = 7,
                     IgnoreArmor = true,
                     Image = "/Assets/Bosses/kovalsky.png"
                 };
             }
 
-            if (type == 2)
+            if (type == 2) // Архимаг C++ (заморозка)
             {
                 return new Enemy
                 {
                     Name = "Архимаг C++",
-                    HP = (int)(25 * 1.8),
-                    Attack = (int)(15 * 1.6),
-                    Defense = (int)(2 * 1.1),
+                    HP = 45,
+                    Attack = 19,
+                    Defense = 3,
                     FreezeChance = 0.25,
                     Image = "/Assets/Bosses/archmage.png"
                 };
             }
 
+            // Пестов C--
             return new Enemy
             {
                 Name = "Пестов C--",
-                HP = (int)(40 * 1.3),
-                Attack = (int)(10 * 1.8),
-                Defense = (int)(5 * 0.6),
+                HP = 52,
+                Attack = 18,
+                Defense = 3,
                 FreezeChance = 0.15,
                 IgnoreArmor = true,
                 Image = "/Assets/Bosses/pestov.png"

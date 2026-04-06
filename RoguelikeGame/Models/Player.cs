@@ -10,7 +10,7 @@ namespace RoguelikeGame.Models
     {
         public int MaxHP = 100;
         public int HP = 100;
-        public int BaseAttack = 30;  // ← базовая сила героя
+        public int BaseAttack = 20;  // базовая сила героя
 
         public Weapon Weapon;
         public Armor Armor;
@@ -20,8 +20,8 @@ namespace RoguelikeGame.Models
 
         public Player()
         {
-            Weapon = new Weapon("Sword", 5, "/Assets/Weapons/sword.png");
-            Armor = new Armor("Light Armor", 3, "/Assets/Armors/lightArmor.png");
+            Weapon = new Weapon("Sword", 6, "/Assets/Weapons/sword.png");
+            Armor = new Armor("Light Armor", 4, "/Assets/Armors/lightArmor.png");
         }
     }
 }
