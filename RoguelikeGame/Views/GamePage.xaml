@@ -39,8 +39,8 @@
                            Foreground="White"
                            HorizontalAlignment="Center"
                            FontSize="14"/>
-                <Grid Width="350">
-                    <ProgressBar x:Name="HpBar" Height="28"/>
+                <Grid Width="600">
+                    <ProgressBar x:Name="HpBar" Height="30"/>
                     <TextBlock x:Name="HpText"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
