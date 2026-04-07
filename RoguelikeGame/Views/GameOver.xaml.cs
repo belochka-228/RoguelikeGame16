@@ -25,9 +25,8 @@ namespace RoguelikeGame.Views
         }
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
-            MainMenu menu = new MainMenu();
+            MainWindow menu = new MainWindow();
             menu.Show();
-
             this.Close();
         }
     }

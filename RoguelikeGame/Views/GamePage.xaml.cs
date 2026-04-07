@@ -16,72 +16,85 @@ using RoguelikeGame.Systems;
 
 namespace RoguelikeGame.Views
 {
+    // главное игровое окно, логика боя, сундуков и т.д.
     public partial class GamePage : Window
     {
-        private Player player = new Player();
-        private List<Enemy> enemies = new List<Enemy>();
+        // игрок и список врагов 
+        private readonly Player player = new Player();
+        private readonly List<Enemy> enemies = new List<Enemy>();
 
-        private EnemyFactory enemyFactory = new EnemyFactory();
-        private BossFactory bossFactory = new BossFactory();
-        private CombatSystem combat = new CombatSystem();
-        private EventGenerator eventGenerator = new EventGenerator();
-        private LootSystem lootSystem = new LootSystem();
+        // нужные системы для создания врагов, расчёта боя и т.д.
+        private readonly EnemyFactory enemyFactory = new EnemyFactory();
+        private readonly BossFactory bossFactory = new BossFactory();
+        private readonly CombatSystem combat = new CombatSystem();
+        private readonly EventGenerator eventGenerator = new EventGenerator();
+        private readonly LootSystem lootSystem = new LootSystem();
 
-        private bool attackMode = false;
-        private int floor = 1;
+        private bool attackMode = false; // режим выбора цели
+        private int floor = 1;           // текущий этаж
 
         public GamePage()
         {
             InitializeComponent();
-            UpdateUI();
-            NextTurn();
+            UpdateUI();    // показать здоровье, оружие, броню
+            NextTurn();    // начать первый ход
         }
 
+        // обновление интерфейса: полоску здоровья, иконки, характеристики и этаж
         private void UpdateUI()
         {
+            // настройка полосы здоровья
             HpBar.Maximum = player.MaxHP;
             HpBar.Value = player.HP;
             HpText.Text = $"{player.HP} / {player.MaxHP}";
 
+            // картинки оружия и брони
             WeaponImage.Source = new BitmapImage(new Uri(player.Weapon.Image, UriKind.Relative));
             ArmorImage.Source = new BitmapImage(new Uri(player.Armor.Image, UriKind.Relative));
-
-            // Отображаем характеристики
+            // текст под иконками с характеристиками
             WeaponStats.Text = $"{player.Weapon.Name}  |  Урон: +{player.Weapon.Attack}";
             ArmorStats.Text = $"{player.Armor.Name}  |  Защита: +{player.Armor.Defense}";
 
+            // показываем этаж
             FloorText.Text = $"Этаж: {floor}";
         }
 
+        // добавляет сообщение в журнал событий 
         private void Log(string text)
         {
             LogBox.AppendText(text + "\n");
             LogBox.ScrollToEnd();
         }
 
+        // начинает следующий ход, генерирует событие
         private void NextTurn()
         {
             var ev = eventGenerator.GenerateEvent(floor);
             if (ev == EventType.Chest)
             {
-                SpawnChest();
+                SpawnChest();   // если сундук, показываем его
                 return;
             }
+            // иначе спавним врагов 
             SpawnEnemies(ev == EventType.Boss);
-            DrawEnemies();
+            DrawEnemies();      // отрисовываем их на экране
         }
 
+        // создаёт сундук на поле, при клике открывается
         private void SpawnChest()
         {
             EnemyPanel.Items.Clear();
-            Image chest = new Image();
-            chest.Width = 200;
-            chest.Source = new BitmapImage(new Uri("/Assets/UI/chest.png", UriKind.Relative));
-            chest.MouseLeftButtonDown += OpenChest;
+            Image chest = new Image
+            {
+                Width = 200,
+                Source = new BitmapImage(new Uri("/Assets/UI/chest.png", UriKind.Relative))
+            };
+            chest.MouseLeftButtonDown += OpenChest; // открытие
             EnemyPanel.Items.Add(chest);
             Log("Вы нашли сундук!");
         }
 
+        // создаёт врагов
         private void SpawnEnemies(bool boss)
         {
             enemies.Clear();
@@ -97,29 +110,37 @@ namespace RoguelikeGame.Views
             Log($"Вы встретили {count} врагов!");
         }
 
+        // рисует всех врагов с их характеристиками 
+        // каждый враг рамка с картинкой и текстом
         private void DrawEnemies()
         {
             EnemyPanel.Items.Clear();
 
             foreach (var enemy in enemies)
             {
-                Border border = new Border();
-                border.BorderBrush = Brushes.Gray;
-                border.BorderThickness = new Thickness(2);
-                border.CornerRadius = new CornerRadius(15);
-                border.Background = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0));
-                border.Margin = new Thickness(20);
-                border.Padding = new Thickness(15);
-                border.Width = 220;
+                Border border = new Border
+                {
+                    BorderBrush = Brushes.Gray,
+                    BorderThickness = new Thickness(2),
+                    CornerRadius = new CornerRadius(5),
+                    Background = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0)),
+                    Margin = new Thickness(20),
+                    Padding = new Thickness(15),
+                    Width = 220
+                };
 
-                StackPanel panel = new StackPanel();
+                StackPanel panel = new StackPanel(); // вертикальное расположение
 
-                Image img = new Image();
-                img.Width = 180;
-                img.Height = 180;
-                img.Stretch = Stretch.Uniform;
-                img.Source = new BitmapImage(new Uri(enemy.Image, UriKind.Relative));
+                // картинка врага
+                Image img = new Image
+                {
+                    Width = 180,
+                    Height = 180,
+                    Stretch = Stretch.Uniform,
+                    Source = new BitmapImage(new Uri(enemy.Image, UriKind.Relative))
+                };
 
+                // подсветка рамки красным при наведении, если активен режим атаки
                 img.MouseEnter += (s, e) =>
                 {
                     if (attackMode) border.BorderBrush = Brushes.Red;
@@ -128,32 +149,43 @@ namespace RoguelikeGame.Views
                 {
                     border.BorderBrush = Brushes.Gray;
                 };
+                // клик по врагу - атака 
                 img.MouseLeftButtonDown += (s, e) =>
                 {
                     if (!attackMode) return;
                     PlayerAttack(enemy);
                 };
 
-                TextBlock nameBlock = new TextBlock();
-                nameBlock.Text = enemy.Name;
-                nameBlock.Foreground = Brushes.Yellow;
-                nameBlock.FontSize = 18;
-                nameBlock.FontWeight = FontWeights.Bold;
-                nameBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                nameBlock.Margin = new Thickness(0, 10, 0, 5);
+                // имя врага 
+                TextBlock nameBlock = new TextBlock
+                {
+                    Text = enemy.Name,
+                    Foreground = Brushes.Yellow,
+                    FontSize = 18,
+                    FontWeight = FontWeights.Bold,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 10, 0, 5)
+                };
 
-                TextBlock hp = new TextBlock();
-                hp.Text = $" Здоровье: {enemy.HP}";
-                hp.Foreground = Brushes.White;
-                hp.FontSize = 14;
-                hp.HorizontalAlignment = HorizontalAlignment.Center;
+                // текущее здоровье
+                TextBlock hp = new TextBlock
+                {
+                    Text = $" Здоровье: {enemy.HP}",
+                    Foreground = Brushes.White,
+                    FontSize = 14,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
 
-                TextBlock stats = new TextBlock();
-                stats.Text = $" Урон: {enemy.Attack}    Защита: {enemy.Defense}";
-                stats.Foreground = Brushes.LightGray;
-                stats.FontSize = 12;
-                stats.HorizontalAlignment = HorizontalAlignment.Center;
+                // атака и защита врага
+                TextBlock stats = new TextBlock
+                {
+                    Text = $" Урон: {enemy.Attack}    Защита: {enemy.Defense}",
+                    Foreground = Brushes.LightGray,
+                    FontSize = 12,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
 
+                // собираем всё вместе
                 panel.Children.Add(img);
                 panel.Children.Add(nameBlock);
                 panel.Children.Add(hp);
@@ -164,12 +196,14 @@ namespace RoguelikeGame.Views
             }
         }
 
+        // обр кнопки "Атака", включает режим выбора цели
         private void Attack_Click(object sender, RoutedEventArgs e)
         {
             attackMode = true;
             Log("Нажмите на врага для атаки.");
         }
 
+        // атака игрока по выбранному врагу, считает урон, убирает мёртвых
         private void PlayerAttack(Enemy enemy)
         {
             attackMode = false;
@@ -184,6 +218,7 @@ namespace RoguelikeGame.Views
 
             DrawEnemies();
 
+            // если врагов не осталось, переходим на след
             if (enemies.Count == 0)
             {
                 floor++;
@@ -191,45 +226,55 @@ namespace RoguelikeGame.Views
                 NextTurn();
                 return;
             }
+            // иначе ход переходит к врагам
             EnemyTurn();
         }
 
+        // обр кнопки "Защита", запускает ход врагов с защитой
         private void Defense_Click(object sender, RoutedEventArgs e)
         {
             EnemyTurn(true);
         }
 
+        // ход врагов, если defending = true, игрок защищается
         private void EnemyTurn(bool defending = false)
         {
             foreach (var enemy in enemies)
             {
+                // базовый урон от врага (с учётом брони или её игнора)
                 int damage = combat.EnemyAttack(player, enemy);
 
                 if (defending)
                 {
+                    // 40% шанс полностью уклониться
                     if (RandomService.Chance() < 0.4)
                     {
                         Log("Вы уклонились от атаки!");
                         continue;
                     }
+                    // блок: снижаем урон на 70-100%
                     int block = RandomService.Next(70, 101);
                     damage = damage * (100 - block) / 100;
                 }
 
+                // критический удар
                 if (enemy.CritChance > 0 && RandomService.Chance() < enemy.CritChance)
                 {
                     damage *= 2;
                     Log($"{enemy.Name} наносит критический удар!");
                 }
 
+                // заморозка 
                 if (enemy.FreezeChance > 0 && RandomService.Chance() < enemy.FreezeChance)
                 {
                     Log($"{enemy.Name} использует заморозку!");
                 }
 
+                // применяем урон к игроку
                 player.HP -= damage;
                 Log($"{enemy.Name} наносит {damage} урона");
 
+                // проверка смерти
                 if (player.HP <= 0)
                 {
                     GameOver over = new GameOver();
@@ -238,30 +283,32 @@ namespace RoguelikeGame.Views
                     return;
                 }
             }
-            UpdateUI();
+            UpdateUI(); // обновляем полоску здоровья
         }
 
+        // открытие сундука: генерирует предмет, показывает картинку и спрашивает, забрать ли
         private async void OpenChest(object sender, EventArgs e)
         {
-            EnemyPanel.Items.Clear();
+            EnemyPanel.Items.Clear(); // убираем сундук
             Item item = lootSystem.GenerateLoot();
 
-            Image img = new Image();
-            img.Width = 200;
-            img.Height = 200;
-            img.Stretch = Stretch.Uniform;
+            Image img = new Image
+            {
+                Width = 200,
+                Height = 200,
+                Stretch = Stretch.Uniform
+            };
 
             bool isPotion = item is Potion;
             bool isWeapon = item is Weapon;
             bool isArmor = item is Armor;
+            bool takeItem = false; 
 
-            string message = "";
-            bool takeItem = false;
-
+            // зелье 
             if (isPotion)
             {
                 img.Source = new BitmapImage(new Uri("/Assets/UI/potion.png", UriKind.Relative));
-                message = "Вы нашли лечебное зелье! Оно полностью восстановит ваше здоровье.\n\nЗабрать?";
+                string message = "Вы нашли лечебное зелье! Оно полностью восстановит ваше здоровье.\n\nЗабрать?";
                 if (MessageBox.Show(message, "Сундук", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     player.HP = player.MaxHP;
@@ -273,46 +320,34 @@ namespace RoguelikeGame.Views
                     Log("Вы решили не брать зелье.");
                 }
             }
+            // оружие
             else if (isWeapon)
             {
                 Weapon w = (Weapon)item;
                 img.Source = new BitmapImage(new Uri(w.Image, UriKind.Relative));
-                message = $"Найдено оружие: {w.Name}\nУрон: +{w.Attack}\n\nВаше текущее оружие: {player.Weapon.Name} (+{player.Weapon.Attack})\n\nЗаменить?";
+                string message = $"Найдено оружие: {w.Name}\nУрон: +{w.Attack}\n\nВаше текущее оружие: {player.Weapon.Name} (+{player.Weapon.Attack})\n\nЗаменить?";
                 if (MessageBox.Show(message, "Сундук", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (w.Attack > player.Weapon.Attack)
-                    {
-                        player.Weapon = w;
-                        Log($"Вы экипировали {w.Name} (+{w.Attack} урона).");
-                        takeItem = true;
-                    }
-                    else
-                    {
-                        Log($"Оружие {w.Name} хуже текущего. Вы его выбросили.");
-                    }
+                    player.Weapon = w;
+                    Log($"Вы экипировали {w.Name} (+{w.Attack} урона).");
+                    takeItem = true;
                 }
                 else
                 {
                     Log("Вы оставили старое оружие.");
                 }
             }
+            // бронька
             else if (isArmor)
             {
                 Armor a = (Armor)item;
                 img.Source = new BitmapImage(new Uri(a.Image, UriKind.Relative));
-                message = $"Найдена броня: {a.Name}\nЗащита: +{a.Defense}\n\nВаша текущая броня: {player.Armor.Name} (+{player.Armor.Defense})\n\nЗаменить?";
+                string message = $"Найдена броня: {a.Name}\nЗащита: +{a.Defense}\n\nВаша текущая броня: {player.Armor.Name} (+{player.Armor.Defense})\n\nЗаменить?";
                 if (MessageBox.Show(message, "Сундук", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    if (a.Defense > player.Armor.Defense)
-                    {
-                        player.Armor = a;
-                        Log($"Вы экипировали {a.Name} (+{a.Defense} защиты).");
-                        takeItem = true;
-                    }
-                    else
-                    {
-                        Log($"Броня {a.Name} хуже текущей. Вы её выбросили.");
-                    }
+                    player.Armor = a;
+                    Log($"Вы экипировали {a.Name} (+{a.Defense} защиты).");
+                    takeItem = true;
                 }
                 else
                 {
@@ -320,12 +355,14 @@ namespace RoguelikeGame.Views
                 }
             }
 
+            // если взяли предмет - покажем его картинку на секунду
             if (takeItem)
             {
                 EnemyPanel.Items.Add(img);
-                await Task.Delay(1500);
+                await Task.Delay(1000);
             }
 
+            // переход на следующий этаж 
             floor++;
             UpdateUI();
             await Task.Delay(800);

@@ -14,7 +14,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
         <Grid Background="#2a2a2a">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -22,130 +21,53 @@
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
-            <!-- ЭТАЖ слева -->
-            <TextBlock x:Name="FloorText"
-                       Grid.Column="0"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Foreground="White"
-                       VerticalAlignment="Center"
-                       Margin="20,0,0,0"/>
+            <TextBlock x:Name="FloorText" Grid.Column="0" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0"/>
 
-            <!-- ЗДОРОВЬЕ по центру -->
-            <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <TextBlock Text="Здоровье"
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           FontSize="14"/>
-                <Grid Width="600">
-                    <ProgressBar x:Name="HpBar" Height="30"/>
-                    <TextBlock x:Name="HpText"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Foreground="Black"
-                               FontSize="14"/>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Здоровье" Foreground="White" HorizontalAlignment="Center" FontSize="14"/>
+                <Grid Width="350">
+                    <ProgressBar x:Name="HpBar" Height="28"/>
+                    <TextBlock x:Name="HpText" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="Black" FontSize="14"/>
                 </Grid>
             </StackPanel>
         </Grid>
 
-        <!-- ОСНОВНАЯ ЧАСТЬ -->
         <Grid Grid.Row="1">
-            <!-- ФОН -->
             <Image Source="/Assets/UI/room.png" Stretch="Fill"/>
 
-            <!-- ЛЕВАЯ ПАНЕЛЬ (ЭКИПИРОВКА) -->
-            <StackPanel HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Margin="30,20">
-                <TextBlock Text="⚔️ Оружие" 
-               Foreground="White" 
-               FontSize="20" 
-               FontWeight="Bold"
-               Margin="0,0,0,10"/>
-                <Border BorderBrush="Gray" 
-            BorderThickness="2" 
-            CornerRadius="10" 
-            Background="#44000000"
-            Padding="10">
-                    <Image x:Name="WeaponImage" Width="120" Height="120"/>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,20">
+                <TextBlock Text="Оружие" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Background="#44000000" Padding="10">
+                    <Image x:Name="WeaponImage" Width="120" Height="150"/>
                 </Border>
-                <TextBlock x:Name="WeaponStats"
-               Foreground="LightGray"
-               FontSize="14"
-               HorizontalAlignment="Center"
-               Margin="0,5,0,0"/>
 
-                <TextBlock Text="🛡️ Доспех" 
-               Foreground="White" 
-               FontSize="20" 
-               FontWeight="Bold"
-               Margin="0,20,0,10"/>
-                <Border BorderBrush="Gray" 
-            BorderThickness="2" 
-            CornerRadius="10" 
-            Background="#44000000"
-            Padding="10">
-                    <Image x:Name="ArmorImage" Width="120" Height="120"/>
+                <TextBlock x:Name="WeaponStats" Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+
+                <TextBlock Text="Доспех" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,20,0,10"/>
+                <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10"  Background="#44000000" Padding="10">
+                    <Image x:Name="ArmorImage" Width="120" Height="150"/>
                 </Border>
-                <TextBlock x:Name="ArmorStats"
-               Foreground="LightGray"
-               FontSize="14"
-               HorizontalAlignment="Center"
-               Margin="0,5,0,0"/>
+
+                <TextBlock x:Name="ArmorStats" Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" Margin="0,5,0,0"/>
             </StackPanel>
 
-            <!-- ВРАГИ -->
-            <ItemsControl x:Name="EnemyPanel"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center">
+            <ItemsControl x:Name="EnemyPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
 
-            <!-- ЖУРНАЛ СОБЫТИЙ -->
-            <Border HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="340"
-                    Margin="10"
-                    Background="#88000000"
-                    CornerRadius="8">
-                <TextBox x:Name="LogBox"
-                         Background="Transparent"
-                         Foreground="White"
-                         BorderThickness="0"
-                         IsReadOnly="True"
-                         TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto"
-                         Padding="10"
-                         FontSize="13"/>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="340" Margin="10" Background="#88000000" CornerRadius="10">
+                <TextBox x:Name="LogBox" Background="Transparent" Foreground="White" BorderThickness="0" IsReadOnly="True" 
+                         TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Padding="10" FontSize="13"/>
             </Border>
 
-            <!-- КНОПКИ -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="0,0,0,40">
-                <Button Content="Атака"
-                        Width="180"
-                        Height="50"
-                        Margin="30"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Click="Attack_Click"/>
-                <Button Content="Защита"
-                        Width="180"
-                        Height="50"
-                        Margin="30"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Click="Defense_Click"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40">
+                <Button Content="Атака" Width="180" Height="50" Margin="30" FontSize="16" FontWeight="Bold" Click="Attack_Click"/>
+
+                <Button Content="Защита" Width="180" Height="50" Margin="30" FontSize="16" FontWeight="Bold" Click="Defense_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

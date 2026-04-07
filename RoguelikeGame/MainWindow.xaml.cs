@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RoguelikeGame.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace RoguelikeGame
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void StartGame_Click(object sender, RoutedEventArgs e)
+        {
+            GamePage game = new GamePage();
+            game.Show();
+
+            this.Close();
         }
     }
 }
