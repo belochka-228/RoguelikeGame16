@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoguelikeGame.Models
 {
-    public class Enemy
+    public class Enemy //храним данные врагаааа
     {
         public string Name;
         public int HP;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoguelikeGame.Models
 {
-    public enum EventType
+    public enum EventType//для ген хода
     {
         Enemy,
         Chest,

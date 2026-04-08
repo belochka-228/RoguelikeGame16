@@ -26,7 +26,7 @@ namespace RoguelikeGame.Systems
                 };
             }
 
-            if (type == 1) // Ковальский (игнорирует броню)
+            if (type == 1) // коваль(игнорирует броню)
             {
                 return new Enemy
                 {
@@ -39,7 +39,7 @@ namespace RoguelikeGame.Systems
                 };
             }
 
-            if (type == 2) // Архимаг C++ (заморозка)
+            if (type == 2) // архимаг C++ 
             {
                 return new Enemy
                 {
@@ -52,7 +52,7 @@ namespace RoguelikeGame.Systems
                 };
             }
 
-            // Пестов C--
+            // пестов C--
             return new Enemy
             {
                 Name = "Пестов C--",

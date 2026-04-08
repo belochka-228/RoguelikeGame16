@@ -9,7 +9,7 @@ namespace RoguelikeGame.Systems
 {
     public class CombatSystem
     {
-        public int PlayerAttack(Player player, Enemy enemy)
+        public int PlayerAttack(Player player, Enemy enemy)//урон, вычитаем из hp врага
         {
             int damage = player.TotalAttack - enemy.Defense;
             if (damage < 1) damage = 1;

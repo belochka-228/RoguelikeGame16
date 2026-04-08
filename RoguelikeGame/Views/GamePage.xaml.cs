@@ -67,7 +67,7 @@ namespace RoguelikeGame.Views
         }
 
         // начинает следующий ход, генерирует событие
-        private void NextTurn()
+        private void NextTurn()//если сундук вызывает SpawnChest(), иначе врга
         {
             var ev = eventGenerator.GenerateEvent(floor);
             if (ev == EventType.Chest)
@@ -76,7 +76,7 @@ namespace RoguelikeGame.Views
                 return;
             }
             // иначе спавним врагов 
-            SpawnEnemies(ev == EventType.Boss);
+            SpawnEnemies(ev == EventType.Boss);// очищаем список и вызываем врагов
             DrawEnemies();      // отрисовываем их на экране
         }
 
@@ -286,11 +286,11 @@ namespace RoguelikeGame.Views
             UpdateUI(); // обновляем полоску здоровья
         }
 
-        // открытие сундука: генерирует предмет, показывает картинку и спрашивает, забрать ли
+        // открытие сундука: генерирует предмет, спрашивает, забрать ли и показывает картинку
         private async void OpenChest(object sender, EventArgs e)
         {
             EnemyPanel.Items.Clear(); // убираем сундук
-            Item item = lootSystem.GenerateLoot();
+            Item item = lootSystem.GenerateLoot();//ген предмет
 
             Image img = new Image
             {

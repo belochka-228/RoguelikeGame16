@@ -5,22 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoguelikeGame.Views"
         mc:Ignorable="d"
-        Title="Game Over" Height="300" Width="500">
+        Title="Game Over" Height="450" Width="800">
 
-    <Grid Background="Black">
+    <Grid Background="#3b2a47">
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-            <TextBlock Text="Вы проиграли"
-                       Foreground="White"
-                       FontSize="28"
-                       Margin="0 0 0 20"
-                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Вы проиграли:(" Foreground="White" FontSize="40" HorizontalAlignment="Center" Margin="0 0 0 30"/>
 
-            <Button Content="Начать заново"
-                    Width="200"
-                    Height="40"
-                    Click="Restart_Click"/>
+            <Button Content="Начать заново" FontSize="20" Width="200" Height="50" Click="Restart_Click"/>
 
         </StackPanel>
 

@@ -13,7 +13,7 @@ namespace RoguelikeGame.Systems
         {
             int type = RandomService.Next(0, 3);
 
-            if (type == 0) // Гоблин
+            if (type == 0) // гоблин
             {
                 return new Enemy
                 {
@@ -26,7 +26,7 @@ namespace RoguelikeGame.Systems
                 };
             }
 
-            if (type == 1) // Скелет (игнорирует броню)
+            if (type == 1) // скелет, игнорирует броню и мой сон
             {
                 return new Enemy
                 {
@@ -39,7 +39,7 @@ namespace RoguelikeGame.Systems
                 };
             }
 
-            // Маг
+            // маг
             return new Enemy
             {
                 Name = "Маг",

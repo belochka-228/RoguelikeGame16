@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoguelikeGame.Models
 {
+    //базовый класс для всех предметов
     public abstract class Item
     {
         public string Name;

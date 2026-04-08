@@ -6,20 +6,13 @@
         xmlns:local="clr-namespace:RoguelikeGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="Black">
+    <Grid Background="#3b2a47">
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-            <TextBlock Text="ROGUELIKE GAME"
-                       Foreground="White"
-                       FontSize="32"
-                       HorizontalAlignment="Center"
-                       Margin="0 0 0 30"/>
+            <TextBlock Text="ROGUELIKE GAME" Foreground="White" FontSize="40" HorizontalAlignment="Center" Margin="0 0 0 30"/>
 
-            <Button Content="Начать игру"
-                    Width="200"
-                    Height="50"
-                    Click="StartGame_Click"/>
+            <Button Content="Начать игру" FontSize="20" Width="200" Height="50" Click="StartGame_Click"/>
 
         </StackPanel>
 
