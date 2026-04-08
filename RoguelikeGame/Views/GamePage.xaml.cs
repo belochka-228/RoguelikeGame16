@@ -86,7 +86,7 @@ namespace RoguelikeGame.Views
             EnemyPanel.Items.Clear();
             Image chest = new Image
             {
-                Width = 200,
+                Width = 400,
                 Source = new BitmapImage(new Uri("/Assets/UI/chest.png", UriKind.Relative))
             };
             chest.MouseLeftButtonDown += OpenChest; // открытие
@@ -123,10 +123,11 @@ namespace RoguelikeGame.Views
                     BorderBrush = Brushes.Gray,
                     BorderThickness = new Thickness(2),
                     CornerRadius = new CornerRadius(5),
-                    Background = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0)),
+                    Background = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0)),
                     Margin = new Thickness(20),
                     Padding = new Thickness(15),
-                    Width = 220
+                    Width = 250,
+                    Height = 380,
                 };
 
                 StackPanel panel = new StackPanel(); // вертикальное расположение
@@ -134,8 +135,8 @@ namespace RoguelikeGame.Views
                 // картинка врага
                 Image img = new Image
                 {
-                    Width = 180,
-                    Height = 180,
+                    Width = 250,
+                    Height = 240,
                     Stretch = Stretch.Uniform,
                     Source = new BitmapImage(new Uri(enemy.Image, UriKind.Relative))
                 };
@@ -172,7 +173,7 @@ namespace RoguelikeGame.Views
                 {
                     Text = $" Здоровье: {enemy.HP}",
                     Foreground = Brushes.White,
-                    FontSize = 14,
+                    FontSize = 16,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
@@ -294,8 +295,8 @@ namespace RoguelikeGame.Views
 
             Image img = new Image
             {
-                Width = 200,
-                Height = 200,
+                Width = 350,
+                Height = 350,
                 Stretch = Stretch.Uniform
             };
 
@@ -359,7 +360,7 @@ namespace RoguelikeGame.Views
             if (takeItem)
             {
                 EnemyPanel.Items.Add(img);
-                await Task.Delay(1000);
+                await Task.Delay(800);
             }
 
             // переход на следующий этаж 

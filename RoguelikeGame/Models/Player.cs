@@ -11,7 +11,7 @@ namespace RoguelikeGame.Models
     {
         public int MaxHP = 100;
         public int HP = 100;
-        public int BaseAttack = 40;   
+        public int BaseAttack = 60;   
 
         public Weapon Weapon; //предметы на начало игры
         public Armor Armor;
